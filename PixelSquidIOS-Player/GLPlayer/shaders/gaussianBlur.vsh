@@ -1,8 +1,3 @@
-//  PixelSquidExample
-//
-//  Copyright © 2016 TurboSquid, Inc. All rights reserved.
-//
-
 precision highp float;
 
 attribute vec2 position;

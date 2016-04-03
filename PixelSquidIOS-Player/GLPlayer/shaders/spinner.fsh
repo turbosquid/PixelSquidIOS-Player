@@ -1,8 +1,3 @@
-//  PixelSquidExample
-//
-//  Copyright © 2016 TurboSquid, Inc. All rights reserved.
-//
-
 // Temperature shader code adapted from https://www.shadertoy.com/view/lsSXW1
 
 // playing with this value tweaks how dim or bright the resulting image is

@@ -1,8 +1,3 @@
-//  PixelSquidExample
-//
-//  Copyright © 2016 TurboSquid, Inc. All rights reserved.
-//
-
 uniform sampler2D texture;
 varying mediump vec2 fragmentAlphaCoordinates;
 

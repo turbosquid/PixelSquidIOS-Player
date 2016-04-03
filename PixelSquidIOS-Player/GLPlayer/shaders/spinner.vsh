@@ -1,8 +1,3 @@
-//  PixelSquidExample
-//
-//  Copyright © 2016 TurboSquid, Inc. All rights reserved.
-//
-
 attribute vec2 position;
 
 uniform mat4 matrix;
