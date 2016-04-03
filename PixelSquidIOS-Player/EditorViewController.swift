@@ -20,7 +20,7 @@ class EditorViewController: UIViewController {
   override func viewWillAppear(animated: Bool) {
     super.viewWillAppear(animated)
     let frame = view.frame;
-    
+
     let glEditorViewController = GLEditorViewController(frame: frame)
     glEditorViewController.preferredFramesPerSecond = 30
     addChildViewController(glEditorViewController)
@@ -28,11 +28,12 @@ class EditorViewController: UIViewController {
     
     scene = glEditorViewController.view as! GLEditorScene
     scene.backgroundSelectionMode = false
+    scene.loadBackgroundImage(named: "unsplash")
     scene.frame = frame
     scene.editorViewControllerDelegate = self
     glEditorViewController.delegate = scene
     
-    scene.addSpinner(file: "1120397248765630391") {
+    scene.addSpinner(file: "730336166141761442") {
       spinner in
       
       print("Spinner Added")
