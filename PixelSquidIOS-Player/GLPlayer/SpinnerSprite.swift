@@ -233,12 +233,12 @@ class SpinnerSprite: ContentSprite {
     return clamp(value, lower: 0.0, upper: 1.0)
   }
   
-  private func temperatureToRGB(var temperatureInKelvins: Float) -> GLKVector3 {
+  private func temperatureToRGB(temperatureInKelvins: Float) -> GLKVector3 {
     var r: Float
     var g: Float
     var b: Float
      
-    temperatureInKelvins = clamp(temperatureInKelvins, lower: 1000.0, upper: 40000.0) / 100.0
+    let temperatureInKelvins = clamp(temperatureInKelvins, lower: 1000.0, upper: 40000.0) / 100.0
     
     if (temperatureInKelvins <= 66.0)
     {
