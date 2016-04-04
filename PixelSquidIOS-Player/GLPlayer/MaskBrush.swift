@@ -156,7 +156,6 @@ class MaskBrush {
     }
 
     if undoMaskImage == nil {
-      // TODO: Switch to using glCopyTexImage2D
       undoMaskImage = maskImage
     }
     
