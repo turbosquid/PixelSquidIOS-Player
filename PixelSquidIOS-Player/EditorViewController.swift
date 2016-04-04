@@ -2,9 +2,7 @@
 //  EditorViewController.swift
 //  PixelSquidIOS-Player
 //
-//  Created by Mark Kurt on 4/2/16.
 //  Copyright © 2016 TurboSquid, Inc. All rights reserved.
-//
 
 import UIKit
 
@@ -35,8 +33,7 @@ class EditorViewController: UIViewController {
     
     scene.addSpinner(file: "730336166141761442") {
       spinner in
-      
-      print("Spinner Added")
+      print("spinner added to scene")
     }
   }
 
@@ -44,29 +41,18 @@ class EditorViewController: UIViewController {
     super.didReceiveMemoryWarning()
     // Dispose of any resources that can be recreated.
   }
-    
-
-  /*
-  // MARK: - Navigation
-
-  // In a storyboard-based application, you will often want to do a little preparation before navigation
-  override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-    // Get the new view controller using segue.destinationViewController.
-    // Pass the selected object to the new view controller.
-  }
-  */
 }
 
 extension EditorViewController: EditorViewControllerDelegate {
   func removeContent(content: Spinner) {
-    print("called when content is removed")
+    print("called when content is removed from the scene")
   }
   
   func sceneContentCountChanged() {
-    print("called when the number of content items displayed has changed")
+    print("called when the number of content items displayed in the scene has changed")
   }
   
   func sceneContentChanged() {
-    print("called when the scene content has changed - rotated, translated, etc.")
+    print("called when the scene content has changed - rotated, translated, etc")
   }
 }

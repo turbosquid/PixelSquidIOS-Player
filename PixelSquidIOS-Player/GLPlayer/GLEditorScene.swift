@@ -2,9 +2,7 @@
 //  GLEditorScene.swift
 //  PixelSquidIOS-Player
 //
-//  Created by Cory Fabre on 1/12/16.
 //  Copyright © 2016 TurboSquid, Inc. All rights reserved.
-//
 
 import Foundation
 import GLKit
@@ -135,29 +133,29 @@ class GLEditorScene: GLKView, GLKViewControllerDelegate {
 
     loadingAnimation = PixelSquidLoadingAnimation()
 
-    singleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: "singleTapGestureHandler:")
+    singleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(GLEditorScene.singleTapGestureHandler(_:)))
     singleTapGestureRecognizer.numberOfTapsRequired = 1
     singleTapGestureRecognizer.delaysTouchesBegan = false
     singleTapGestureRecognizer.cancelsTouchesInView = true
     addGestureRecognizer(singleTapGestureRecognizer)
     
-    rotationGestureRecognizer = UIRotationGestureRecognizer(target: self, action: "rotationGestureHandler:")
+    rotationGestureRecognizer = UIRotationGestureRecognizer(target: self, action: #selector(GLEditorScene.rotationGestureHandler(_:)))
     rotationGestureRecognizer.delaysTouchesBegan = false
     rotationGestureRecognizer.cancelsTouchesInView = true
     addGestureRecognizer(rotationGestureRecognizer)
     rotationGestureRecognizer.delegate = self
     
-    pinchGestureRecognizer = UIPinchGestureRecognizer(target: self, action: "pinchGestureHandler:")
+    pinchGestureRecognizer = UIPinchGestureRecognizer(target: self, action: #selector(GLEditorScene.pinchGestureHandler(_:)))
     addGestureRecognizer(pinchGestureRecognizer)
     pinchGestureRecognizer.delegate = self
     
-    doubleTouchPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: "doubleTouchPanGestureHandler:")
+    doubleTouchPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(GLEditorScene.doubleTouchPanGestureHandler(_:)))
     doubleTouchPanGestureRecognizer.minimumNumberOfTouches = 2
     doubleTouchPanGestureRecognizer.maximumNumberOfTouches = 2
     doubleTouchPanGestureRecognizer.cancelsTouchesInView = true
     addGestureRecognizer(doubleTouchPanGestureRecognizer)
 
-    singleTouchPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: "singleTouchPanGestureHandler:")
+    singleTouchPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(GLEditorScene.singleTouchPanGestureHandler(_:)))
     singleTouchPanGestureRecognizer.minimumNumberOfTouches = 1
     singleTouchPanGestureRecognizer.maximumNumberOfTouches = 1
     addGestureRecognizer(singleTouchPanGestureRecognizer)
@@ -617,8 +615,8 @@ class GLEditorScene: GLKView, GLKViewControllerDelegate {
   typealias SpinnerCompleteFunc = (spinner: Spinner?) -> Void
   func addSpinner(asset asset: PixelSquidAsset, complete: addSpinnerCompletionHandler? = nil) -> Spinner? {
     if let url = asset.localVideoUrl {
-      let spinner = addSpinner(url: url) { [weak self] spinner in
-        complete?(spinner)
+      let spinner = addSpinner(url: url) { error, spinner in
+        complete?(error: error, spinner: spinner)
       }
       return spinner
     }
@@ -750,7 +748,7 @@ class GLEditorScene: GLKView, GLKViewControllerDelegate {
     return spinners.indices ~= index ? spinners[index] : nil
   }
   
-  private func constrainZoomFrame(var newZoomFrame: CGRect, originalZoomFrame: CGRect) -> CGRect {
+  private func constrainZoomFrame(newZoomFrame: CGRect, originalZoomFrame: CGRect) -> CGRect {
     var offset = CGPointZero
     let minSize = min(newZoomFrame.height, newZoomFrame.width)
     let scale = minSize / min(viewFrame.height, viewFrame.width)
@@ -762,29 +760,31 @@ class GLEditorScene: GLKView, GLKViewControllerDelegate {
     if viewFrame.height > frame.size.height - 2 * ToolbarHeight {
       adjustedMaxY += ((scale / 2) * (viewFrame.height - frame.size.height + 2 * ToolbarHeight))
     }
+    
+    var calibratedNewZoomFrame = newZoomFrame
 
     if newZoomFrame.width > viewFrame.width || newZoomFrame.height > viewFrame.height {
-      newZoomFrame = originalZoomFrame
+      calibratedNewZoomFrame = originalZoomFrame
     }
     else if minSize < minZoomSize {
-      newZoomFrame = originalZoomFrame
+      calibratedNewZoomFrame = originalZoomFrame
     }
 
-    if newZoomFrame.minX < viewFrame.minX {
-      offset.x = viewFrame.minX - newZoomFrame.minX
+    if calibratedNewZoomFrame.minX < viewFrame.minX {
+      offset.x = viewFrame.minX - calibratedNewZoomFrame.minX
     }
-    else if newZoomFrame.maxX > viewFrame.maxX {
-      offset.x = viewFrame.maxX - newZoomFrame.maxX
-    }
-
-    if newZoomFrame.minY < viewFrame.minY {
-      offset.y = viewFrame.minY - newZoomFrame.minY
-    }
-    else if newZoomFrame.maxY > adjustedMaxY {
-      offset.y = adjustedMaxY - newZoomFrame.maxY
+    else if calibratedNewZoomFrame.maxX > viewFrame.maxX {
+      offset.x = viewFrame.maxX - calibratedNewZoomFrame.maxX
     }
 
-    return CGRectOffset(newZoomFrame, offset.x, offset.y)
+    if calibratedNewZoomFrame.minY < viewFrame.minY {
+      offset.y = viewFrame.minY - calibratedNewZoomFrame.minY
+    }
+    else if calibratedNewZoomFrame.maxY > adjustedMaxY {
+      offset.y = adjustedMaxY - calibratedNewZoomFrame.maxY
+    }
+
+    return CGRectOffset(calibratedNewZoomFrame, offset.x, offset.y)
   }
   
   private func getZoomedViewFrame() -> CGRect {

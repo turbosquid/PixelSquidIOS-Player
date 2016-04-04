@@ -2,9 +2,7 @@
 //  Spinner.swift
 //  PixelSquidIOS-Player
 //
-//  Created by Mark Kurt on 12/30/15.
 //  Copyright © 2016 TurboSquid, Inc. All rights reserved.
-//
 
 import UIKit
 import GLKit
@@ -85,8 +83,6 @@ class GLKSpinnerImage: SpinnerImage {
   }
   
   func load(cgImage: CGImage) {
-    // TODO: Just add a load func to ContentSprite and move this protocol to the sprite
-
     if let sprite = sprite {
       sprite.load(cgImage)
     }
@@ -235,7 +231,6 @@ class Spinner {
   typealias CompletionFunc = (success: Bool, error: NSError?) -> Void
   
   func load(videoUrl videoUrl: NSURL, completion: CompletionFunc) {
-    // TODO: We are double loading the frame on select
     decoder.load(videoUrl) { [weak self] success, error, frameImage in
       self?.decoder.deactivate()
       
