@@ -2,9 +2,7 @@
 //  Spinner.swift
 //  PixelSquidIOS-Player
 //
-//  Created by Mark Kurt on 12/30/15.
 //  Copyright © 2016 TurboSquid, Inc. All rights reserved.
-//
 
 import UIKit
 import GLKit

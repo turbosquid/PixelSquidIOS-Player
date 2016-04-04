@@ -2,9 +2,7 @@
 //  ContentSprite.swift
 //  PixelSquidIOS-Player
 //
-//  Created by Cory Fabre on 1/5/16.
 //  Copyright © 2016 TurboSquid, Inc. All rights reserved.
-//
 
 import Foundation
 import GLKit
